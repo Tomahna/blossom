@@ -58,4 +58,19 @@ class StructBuilderSpec extends FlatSpec with Matchers{
       ) :: Nil
     )
   }
+  case class NestedL3(int: Int)
+  case class NestedL2(nestedL3: NestedL3)
+  case class NestedL1(nestedL2: NestedL2)
+  case class NestedL0(nestedL1: NestedL1)
+  it should "handle deeply nested elemnts" in {
+    struct[NestedL0]() shouldBe StructType(
+      StructField("nestedL1", StructType(
+        StructField("nestedL2",  StructType(
+          StructField("nestedL3", StructType(
+            StructField("int", IntegerType, false) :: Nil
+          ), false) :: Nil
+        ), false) :: Nil
+      ), false) :: Nil
+    )
+  }
 }
