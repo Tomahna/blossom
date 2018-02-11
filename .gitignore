@@ -1,0 +1,10 @@
+# Emacs
+.ensime*
+ensime.sbt
+
+# Intellij
+.idea
+
+# Scala
+target
+
