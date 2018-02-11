@@ -29,6 +29,22 @@ class StructBuilderSpec extends FlatSpec with Matchers{
   it should "handle single optional string" in {
     struct[OptionStringData]() shouldBe StructType(StructField("data", StringType, true) :: Nil)
   }
+  case class ArrayIntData(data: Array[Int])
+  it should "handle array of int" in {
+    struct[ArrayIntData]() shouldBe StructType(StructField("data", ArrayType(IntegerType, false), false) :: Nil)
+  }
+  case class ArrayLongData(data: Array[Long])
+  it should "handle array of long" in {
+    struct[ArrayLongData]() shouldBe StructType(StructField("data", ArrayType(LongType, false), false) :: Nil)
+  }
+  case class ArrayStringData(data: Array[String])
+  it should "handle array of string" in {
+    struct[ArrayStringData]() shouldBe StructType(StructField("data", ArrayType(StringType, false), false) :: Nil)
+  }
+  case class ArrayOptionIntData(data: Array[Option[Int]])
+  it should "handle array of optional int" in {
+    struct[ArrayOptionIntData]() shouldBe StructType(StructField("data", ArrayType(IntegerType, true), false) :: Nil)
+  }
   case class MultiArg(int: Int, long: Long, string: String, oInt: Option[Int], oLong: Option[Long], oString: Option[String])
   it should "handle multiple elements" in {
     struct[MultiArg]() shouldBe StructType(

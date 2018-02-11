@@ -18,6 +18,12 @@ object StructDerivation {
   implicit val stringField: StructBuilder[String] = new StructBuilder[String]{
     def build(): StructField = StructField("", StringType, false)
   }
+  implicit def arrayField[T](implicit builder: StructBuilder[T]): StructBuilder[Array[T]] = new StructBuilder[Array[T]]{
+    def build(): StructField = {
+      val elements = builder.build()
+      StructField("", ArrayType(elements.dataType, elements.nullable), false)
+    }
+  }
   implicit def optionField[T](implicit builder: StructBuilder[T]): StructBuilder[Option[T]] = new StructBuilder[Option[T]]{
     def build(): StructField = builder.build().copy(nullable = true)
   }
